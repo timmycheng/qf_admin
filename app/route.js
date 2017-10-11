@@ -1,4 +1,5 @@
-
+require('http')
+var config = require()
 
 module.exports = function(app){
     // comment because session is not ready
@@ -16,6 +17,7 @@ module.exports = function(app){
 
     app.use(function(req, res, next){
         console.log('get AccessToken')
+        
         next()
     })
 
