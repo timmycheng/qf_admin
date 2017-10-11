@@ -1,0 +1,38 @@
+{
+  "name": "qf_admin",
+  "version": "1.0.0",
+  "description": "qinfeng admin",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timmycheng/qf_admin.git"
+  },
+  "author": "timmycheng",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/timmycheng/qf_admin/issues"
+  },
+  "homepage": "https://github.com/timmycheng/qf_admin#readme",
+  "dependencies": {
+    "bcrypt-nodejs": "^0.0.3",
+    "body-parser": "^1.18.2",
+    "connect-mongo": "^2.0.0",
+    "connect-multiparty": "^2.0.0",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "moment": "^2.19.0",
+    "mongoose": "^4.12.1",
+    "pug": "^2.0.0-rc.4",
+    "serve-static": "^1.13.1"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-concurrent": "^2.3.1",
+    "grunt-contrib-nodemon": "^0.5.4",
+    "grunt-contrib-watch": "^1.0.0"
+  }
+}
