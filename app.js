@@ -16,7 +16,7 @@ var mongoUrl = 'mongodb://timmycheng.cn:27017/xingu2017'
 mongoose.Promise = global.Promise
 mongoose.connect(mongoUrl, {useMongoClient: true})
 
-app.set('views', './app/views/pages')
+app.set('views', './app/views')
 app.set('view engine', 'pug')
 app.use(bodyParser.json())
 
@@ -39,6 +39,10 @@ app.use(bodyParser.urlencoded({
 
 app.use(express.static(path.join(__dirname, 'public')))
 app.locals.moment = require('moment')
+app.locals.accessToken = ''
+app.locals.accessTokenExpired = ''
+app.locals.ticket = ''
+app.locals.ticketExpired = ''
 
 // 启动服务
 app.listen(port)

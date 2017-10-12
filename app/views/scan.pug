@@ -1,0 +1,44 @@
+html
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1, user-scalable=0")
+
+        link(href="/libs/weui/dist/style/weui.css", rel="stylesheet")
+        link(href="/libs/weui/dist/example/example.css", rel="stylesheet")
+
+        title Scan
+    body(ontouchstart)
+        .container#container
+            .page__hd
+                h1 QinFeng Education Scanner
+            .page__bd.page__bd_spacing
+                a.weui-btn.weui-btn_primary(href="javascript:scan()") Scan
+                
+                a.weui-btn.weui-btn_primary(href="javascript:post()") Submit
+    script(src="/libs/jquery/dist/jquery.min.js")
+    script(type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js")
+    script(type="text/javascript").
+        wx.config({
+            debug: true,
+            appId: '#{signature.appid}',
+            timestamp: #{signature.timestamp},
+            nonceStr: '#{signature.noncestr}',
+            signature: '#{signature.signature}',
+            jsApilist: ['scanQRCode']
+        })
+        wx.ready(function(){
+            //- console.log('done')
+        })
+        wx.error(function(err){
+            console.log(err)
+        })
+        function scan(){
+            //- console.log('in')
+            wx.scanQRCode({
+                needResult: 1,
+                scanType: ['qrCode', 'barCode'],
+                success: function(res){
+                    console.log(res)
+                }
+            })
+        }

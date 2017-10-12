@@ -1,0 +1,1 @@
+var token = #{app.locals.accessToken}

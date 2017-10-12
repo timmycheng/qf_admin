@@ -1,5 +1,5 @@
 require('http')
-var config = require()
+var config = require('./config')
 
 module.exports = function(app){
     // comment because session is not ready
@@ -14,27 +14,56 @@ module.exports = function(app){
         console.log(date, req.ip, req.method, req.originalUrl)
         next()
     })
-
+    // get access token
     app.use(function(req, res, next){
-        console.log('get AccessToken')
-        
-        next()
+        // console.log('get AccessToken')
+        if('' ===  app.locals.accessToken || Date.now() > app.locals.accessTokenExpired){
+            console.log('---- token expired. need request.')
+            config.getToken(function(token){
+                // console.log(token.access_token)
+                app.locals.accessToken = token.access_token
+                app.locals.accessTokenExpired = token.expires_in
+                next()
+            })
+        }else{
+            console.log("---- do not need request new token")
+            next()
+        }
     })
-
+    // get ticket and signature
     app.use(function(req, res, next){
-        console.log('get apiTicket & signature')
-        next()
+        // console.log('get apiTicket & signature')
+        if('' === app.locals.ticket || Date.now() > app.locals.ticketExpired){
+            console.log('---- ticket expired. need requeset.')
+            config.getTicket(app.locals.accessToken, function(ticket){
+                // console.log(ticket.ticket)
+                app.locals.ticket = ticket.ticket
+                app.locals.ticketExpired = ticket.expires_in
+                app.locals.signature = config.getSign(ticket.ticket)
+                // console.log(app.locals)
+                next()
+            })
+        }else{
+            console.log("---- do not need request new ticket")
+            next()
+        }
+        // console.log('the access token is ', app.locals.accessToken)
     })
 
     // 主页
     app.get('/', function(req, res){
         console.log('index here')
         res.send('index here')
+        // console.log(app.locals)
     })
     // 扫描功能
     app.get('/scan', function(req, res){
-        console.log('scan here')
-        res.send('scan here')
+        // console.log('scan here')
+        // res.send('scan here')
+        // console.log(app.locals.accessToken)
+        // console.log(app.locals.ticket)
+        // console.log(app.locals.signature.signature)
+        res.render('scan')
     })
     app.post('/scan', function(req, res){
         console.log('post scan result')
