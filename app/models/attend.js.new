@@ -1,0 +1,16 @@
+var mongoose = require('mongoose')
+var ObjectId = mongoose.Types.ObjectId
+var AttendSchema = new mongoose.Schema({
+    userId: String,
+    lessonId: {
+        type: ObjectId,
+        ref: 'Lesson'
+    },
+    createAt: {
+        type: Date,
+        default: Date.now()
+    }
+})
+var Attend = mongoose.model('attend', AttendSchema)
+
+module.exports = Attend

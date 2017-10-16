@@ -1,16 +1,6 @@
 var mongoose = require('mongoose')
-var ObjectId = mongoose.Schema.Types.ObjectId
 var User = require('../models/user')
-
-var attendSchema = new mongoose.Schema({
-    nickname: String,
-    lesson: String,
-    createAt: {
-        type: Date,
-        default: Date.now()
-    },
-})
-var Attend = mongoose.model('attend', attendSchema)
+var Attend = require('../models/attend')
 
 
 exports.attend = function(req, res){
