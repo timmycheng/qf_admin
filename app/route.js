@@ -19,29 +19,39 @@ module.exports = function(app){
     app.use(function(req, res, next){
         // console.log('get AccessToken')
         if('' ===  app.locals.accessToken || Date.now() > app.locals.accessTokenExpired){
-            console.log('---- token expired. need request.')
+            console.log('---- token expired. need request. ----')
             config.getToken(function(token){
-                app.locals.accessToken = token.access_token
-                app.locals.accessTokenExpired = token.expires_in
-                next()
+                if(token.errcode){
+                    console.log('Get token fail: ', token.errmsg)
+                    res.status(500).send('ERROR!')
+                }else{
+                    app.locals.accessToken = token.access_token
+                    app.locals.accessTokenExpired = token.expires_in
+                    next()
+                }
             })
         }else{
-            console.log("---- do not need request new token")
+            console.log("---- do not need request new token. ----")
             next()
         }
     })
     // get ticket and signature
     app.use(function(req, res, next){
         if('' === app.locals.ticket || Date.now() > app.locals.ticketExpired){
-            console.log('---- ticket expired. need requeset.')
+            console.log('---- ticket expired. need requeset. ----')
             config.getTicket(app.locals.accessToken, function(ticket){
-                app.locals.ticket = ticket.ticket
-                app.locals.ticketExpired = ticket.expires_in
-                app.locals.signature = config.getSign(ticket.ticket)
-                next()
+                if(ticket.errcode){
+                    console.log('Get ticket fail: ', ticket.errmsg)
+                    res.status(500).send('ERROR!')
+                }else{
+                    app.locals.ticket = ticket.ticket
+                    app.locals.ticketExpired = ticket.expires_in
+                    app.locals.signature = config.getSign(ticket.ticket)
+                    next()
+                }
             })
         }else{
-            console.log("---- do not need request new ticket")
+            console.log("---- do not need request new ticket. ----")
             next()
         }
     })

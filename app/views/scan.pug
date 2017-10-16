@@ -33,14 +33,16 @@ html
     script(src="/js/scan.js")
     script(src="/libs/weui.js/dist/weui.min.js")
     script(type="text/javascript").
-        wx.config({
-            debug: false,
-            appId: '#{signature.appid}',
-            timestamp: #{signature.timestamp},
-            nonceStr: '#{signature.noncestr}',
-            signature: '#{signature.signature}',
-            jsApiList: ['scanQRCode']
-        })
+        if(#{signature}){
+            wx.config({
+                debug: false,
+                appId: '#{signature.appid}',
+                timestamp: #{signature.timestamp},
+                nonceStr: '#{signature.noncestr}',
+                signature: '#{signature.signature}',
+                jsApiList: ['scanQRCode']
+            })
+        }
         wx.ready(function(){
             //- console.log('done')
         })
