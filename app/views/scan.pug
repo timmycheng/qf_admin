@@ -46,7 +46,8 @@ html
                 needResult: 1,
                 scanType: ['qrCode', 'barCode'],
                 success: function(res){
-                    console.log(res)
+                    //- console.log(res)
+                    $('#cardId').val(res.resultStr)
                 }
             })
         }
