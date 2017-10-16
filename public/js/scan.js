@@ -7,8 +7,14 @@ function post(){
             {'cardId': $('#cardId').val()},
             function(data){
                 // console.log(data)
-                alert(data)
-                $('#cardId').val('')
+                // alert(data)
+                if(data.success)
+                {
+                    alert('成功！')
+                    $('#cardId').val('')
+                }else{
+                    alert('卡号错误，请检查卡号！')
+                }
             }    
         )
     }
