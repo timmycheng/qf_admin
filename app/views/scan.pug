@@ -12,11 +12,19 @@ html
             .page__hd
                 h1 QinFeng Education Scanner
             .page__bd.page__bd_spacing
-                a.weui-btn.weui-btn_primary(href="javascript:scan()") Scan
-                
-                a.weui-btn.weui-btn_primary(href="javascript:post()") Submit
+                .weui-cells.weui-cells_form
+                    .weui-cell
+                        .weui-cell__hd
+                            label.weui-label 会员卡
+                        .weui-cell__bd
+                            input.weui-input#cardId(name="id" type="number" pattern="[0-9]*" placeholder="请输入会员卡：")
+                .weui-btn-area        
+                    a.weui-btn.weui-btn_primary(href="javascript:scan()") Scan
+                    a.weui-btn.weui-btn_primary(href="javascript:post()") Submit
+                    
     script(src="/libs/jquery/dist/jquery.min.js")
     script(type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js")
+    script(src="/js/scan.js")
     script(type="text/javascript").
         wx.config({
             debug: true,

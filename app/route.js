@@ -1,5 +1,6 @@
 require('http')
 var config = require('./config')
+var db = require('./db')
 
 module.exports = function(app){
     // comment because session is not ready
@@ -66,7 +67,18 @@ module.exports = function(app){
         res.render('scan')
     })
     app.post('/scan', function(req, res){
-        console.log('post scan result')
+        // console.log('post scan result')
+        // console.log('req card id is: ', req.body.cardId)
+        // console.log(app.locals.accessToken)
+        var cardId = req.body.cardId
+        var classId = req.body.classId
+        // console.log(cardId)
+        config.getOpenId(cardId, app.locals.accessToken, function(openId){
+            db.attend(openId, classId, Date.now(), function(ret){
+                res.status(200).send(ret)
+            })           
+        })
+        
         res.send('post scan result')
     })
     // 用户
@@ -87,6 +99,10 @@ module.exports = function(app){
         res.send('user information')
     })
     // 课程
+    app.get('/classid', function(req, res){
+        console.log('class id')
+        res.send('class id')
+    })
     app.get('/class/list', function(req, res){
         console.log('class list')
         res.send('class list')

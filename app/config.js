@@ -2,9 +2,13 @@ var https = require('https')
 var http = require('http')
 var crypto = require('crypto')
 var hash = crypto.createHash('sha1')
+var Url = require('url')
 var config_app = {
     appid: 'wxa6b156cea6fb64e9',
     secret: '5eff45b467d8aa27adecd65778867bc5'
+}
+var config_card = {
+    card_id: 'poLTHtzt_LCAezyRmqhCAAs2iei4'
 }
 
 exports.getToken = function(callback){
@@ -15,6 +19,7 @@ exports.getToken = function(callback){
         // console.log(res)
         res.setEncoding('utf8')
         res.on('data', function(chunk){
+            // console.log(chunk)
             accessToken = JSON.parse(chunk)
             accessToken.expires_in = accessToken.expires_in * 1000 + Date.now()
         })
@@ -62,5 +67,38 @@ exports.getSign = function(ticket){
         'signature': sign
     }
     
+    
+}
+
+exports.getOpenId = function(code, token, callback){
+    console.log('get open id here')
+    var url = 'https://api.weixin.qq.com/card/membercard/userinfo/get?access_token=' + token
+    var data = {
+        "card_id": config_card.card_id,
+        "code": code
+    }
+    console.log(data)
+    var opt = Url.parse(url)
+    opt.method = 'POST'
+    opt.headers = {
+        "Content-Type": 'application/json',
+        "Content-Length": JSON.stringify(data).length
+    }
+    var post = https.request(opt, function(res){
+        if(200 === res.statusCode){
+            res.on('data', function(chunk){
+                result = JSON.parse(chunk)
+            })
+            .on('end', function(){
+                return callback(result)
+            })
+        }
+    })
+    post.write(JSON.stringify(data))
+    post.end()
+    
+}
+
+exports.getClasses = function(datestamp, callback){
     
 }
