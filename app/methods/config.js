@@ -85,14 +85,12 @@ exports.getOpenId = function(code, token, callback){
         "Content-Length": JSON.stringify(data).length
     }
     var post = https.request(opt, function(res){
-        if(200 === res.statusCode){
-            res.on('data', function(chunk){
-                result = JSON.parse(chunk)
-            })
-            .on('end', function(){
-                return callback(result)
-            })
-        }
+        res.on('data', function(chunk){
+            result = JSON.parse(chunk)
+        })
+        .on('end', function(){
+            return callback(result)
+        })
     })
     post.write(JSON.stringify(data))
     post.end()
