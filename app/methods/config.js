@@ -57,9 +57,10 @@ exports.getSign = function(ticket){
     var timestamp = Math.round(Date.now()/1000)
     var url = 'http://timmycheng.cn:3009/scan'
     var string = 'jsapi_ticket=' + ticket + '&noncestr=' + noncestr + "&timestamp=" + timestamp + "&url=" + url
-    // console.log(string)
+    console.log(string)
     hash.update(string, 'utf8')
     var sign = hash.digest('hex')
+    console.log(sign)
     return {
         'appid': config_app.appid,
         'timestamp': timestamp,
