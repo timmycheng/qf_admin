@@ -55,7 +55,7 @@ exports.getTicket = function(token, callback){
 exports.getSign = function(ticket){
     var noncestr = 'Wm3WZYTPz0wzccnW'
     var timestamp = Math.round(Date.now()/1000)
-    var url = 'http://timmycheng.cn/scan'
+    var url = 'http://timmycheng.cn:3009/scan'
     var string = 'jsapi_ticket=' + ticket + '&noncestr=' + noncestr + "&timestamp=" + timestamp + "&url=" + url
     // console.log(string)
     hash.update(string, 'utf8')
