@@ -1,7 +1,7 @@
 var express = require('express')
 var session = require('express-session')
 var path = require('path')
-var port =  process.env.PORT || 3000
+var port =  process.env.PORT || 3009
 var app = express()
 
 var bodyParser = require('body-parser')
