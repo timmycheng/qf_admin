@@ -62,6 +62,7 @@ module.exports = function(app){
         var scanObj
         config.getOpenId(cardId, app.locals.accessToken, function(openId){
             var nickname = openId.nickname
+            // console.log(openId)
             if(openId.errmsg === 'ok' && openId.has_active){
                 scanObj = {
                     'nickname': nickname,
@@ -74,6 +75,8 @@ module.exports = function(app){
                         res.send({success: 1})
                     }
                 })
+            }else{
+                res.send({success: 0, msg: openId.errmsg})
             }
         })
     })
