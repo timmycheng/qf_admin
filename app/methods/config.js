@@ -66,18 +66,17 @@ exports.getSign = function(ticket){
         'noncestr': noncestr,
         'signature': sign
     }
-    
-    
 }
 
 exports.getOpenId = function(code, token, callback){
     console.log('get open id here')
+    // console.log(token)
     var url = 'https://api.weixin.qq.com/card/membercard/userinfo/get?access_token=' + token
     var data = {
         "card_id": config_card.card_id,
         "code": code
     }
-    console.log(data)
+    // console.log(data)
     var opt = Url.parse(url)
     opt.method = 'POST'
     opt.headers = {
@@ -99,6 +98,6 @@ exports.getOpenId = function(code, token, callback){
     
 }
 
-exports.getClasses = function(datestamp, callback){
+exports.getUserInfo = function(datestamp, callback){
     
 }

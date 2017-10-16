@@ -10,7 +10,13 @@ var cookieParser = require('cookie-parser')
 
 var mongoose = require('mongoose')
 var mongoStore = require('connect-mongo')(session)
-var mongoUrl = 'mongodb://timmycheng.cn:27017/xingu2017'
+var mongoUrl = 'mongodb://timmycheng.cn:27017/qf-admin'
+
+var wilddog = require('wilddog')
+var wd_config = {
+	syncURL: "https://wd1656114870exzhuv.wilddogio.com"
+}
+wilddog.initializeApp(wd_config)
 
 // 设置
 mongoose.Promise = global.Promise
@@ -43,6 +49,9 @@ app.locals.accessToken = ''
 app.locals.accessTokenExpired = ''
 app.locals.ticket = ''
 app.locals.ticketExpired = ''
+app.locals.ref = wilddog.sync().ref('scanObj')
+
+
 
 // 启动服务
 app.listen(port)

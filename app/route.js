@@ -1,6 +1,6 @@
 require('http')
-var config = require('./config')
-var db = require('./db')
+var config = require('./methods/config')
+var db = require('./methods/db')
 
 module.exports = function(app){
     // comment because session is not ready
@@ -21,7 +21,6 @@ module.exports = function(app){
         if('' ===  app.locals.accessToken || Date.now() > app.locals.accessTokenExpired){
             console.log('---- token expired. need request.')
             config.getToken(function(token){
-                // console.log(token.access_token)
                 app.locals.accessToken = token.access_token
                 app.locals.accessTokenExpired = token.expires_in
                 next()
@@ -33,88 +32,54 @@ module.exports = function(app){
     })
     // get ticket and signature
     app.use(function(req, res, next){
-        // console.log('get apiTicket & signature')
         if('' === app.locals.ticket || Date.now() > app.locals.ticketExpired){
             console.log('---- ticket expired. need requeset.')
             config.getTicket(app.locals.accessToken, function(ticket){
-                // console.log(ticket.ticket)
                 app.locals.ticket = ticket.ticket
                 app.locals.ticketExpired = ticket.expires_in
                 app.locals.signature = config.getSign(ticket.ticket)
-                // console.log(app.locals)
                 next()
             })
         }else{
             console.log("---- do not need request new ticket")
             next()
         }
-        // console.log('the access token is ', app.locals.accessToken)
     })
 
     // 主页
-    app.get('/', function(req, res){
-        console.log('index here')
-        res.send('index here')
-        // console.log(app.locals)
+    app.get('/', db.getAttend, function(req, res){
+        res.render('index', {
+            list: req.list
+        })
     })
-    // 扫描功能
+    // 扫描页面
     app.get('/scan', function(req, res){
-        // console.log('scan here')
-        // res.send('scan here')
-        // console.log(app.locals.accessToken)
-        // console.log(app.locals.ticket)
-        // console.log(app.locals.signature.signature)
         res.render('scan')
     })
+    // 上传扫描结果
     app.post('/scan', function(req, res){
-        // console.log('post scan result')
-        // console.log('req card id is: ', req.body.cardId)
-        // console.log(app.locals.accessToken)
         var cardId = req.body.cardId
-        var classId = req.body.classId
-        // console.log(cardId)
+        var scanObj
         config.getOpenId(cardId, app.locals.accessToken, function(openId){
-            db.attend(openId, classId, Date.now(), function(ret){
-                res.status(200).send(ret)
-            })           
+            var nickname = openId.nickname
+            if(openId.errmsg === 'ok' && openId.has_active){
+                scanObj = {
+                    'nickname': nickname,
+                    'timestamp': Date.now()
+                }
+                app.locals.ref.push(scanObj, function(err){
+                    if(err){
+                        res.send({success: 0, msg: err})
+                    }else{
+                        res.send({success: 1})
+                    }
+                })
+            }
         })
-        
-        res.send('post scan result')
     })
-    // 用户
-    app.get('/user/login', function(req, res){
-        console.log('user login interface')
-        res.send('user login interface')
-    })
-    app.post('/user/login', function(req, res){
-        console.log('user login action')
-        res.send('user login action')
-    })
-    app.get('/user/logout', function(req, res){
-        console.log('user logout')
-        res.send('user logout')
-    })
-    app.get('/user/:id', function(req, res){
-        console.log('user information')
-        res.send('user information')
-    })
-    // 课程
-    app.get('/classid', function(req, res){
-        console.log('class id')
-        res.send('class id')
-    })
-    app.get('/class/list', function(req, res){
-        console.log('class list')
-        res.send('class list')
-    })
-    app.get('/class/:id', function(req, res){
-        console.log('class information')
-        res.send('class information')
-    })
-    app.post('/class', function(req, res){
-        console.log('arrange classes')
-        res.send('arrange classes')
-    })
-
-
+    // 确认签到结果
+    app.post('/attend',function(req, res, next){
+        app.locals.ref.remove()
+        next()
+    }, db.attend)
 }

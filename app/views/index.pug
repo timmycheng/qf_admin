@@ -1,0 +1,72 @@
+html
+    head
+        meta(charset="utf-8")
+        title Qinfeng Education
+
+        link(rel="stylesheet", href="/libs/bootstrap/dist/css/bootstrap.min.css")
+    body
+        nav.navbar.navbar-inverse
+            .container-fluid
+                .navbar-header
+                    button.navbar-toggle.collapsed(type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar")
+                        span.sr-only Toggle navigation
+                        span.icon-bar
+                        span.icon-bar
+                        span.icon-bar
+                    a.navbar-brand(href="#") QinFeng Education
+        
+        .container
+            .row
+                .col-sm-10.col-sm-offset-1.text-center
+                    h2 waiting for scanning...
+                    form#attendForm.form-inline(action="/attend", method="POST")
+                        .form-group
+                            label(for=)
+                        .form-group
+                            label(for="username") username
+                            input.form-control#username(type="text", name="username" readonly)
+                        .form-group
+                            label(for="lesson") lesson
+                            input.form-control#lesson(type="text", name="lesson")
+                        button.btn.btn-default(type="submit") Submit
+            .row
+                table.table.table-condensed.table-bordered.table-striped
+                    thead
+                        tr
+                            th name
+                            th class
+                            th timestamp
+                    tbody
+                        each item in list
+                            tr
+                                td #{item.nickname}
+                                td #{item.lesson}
+                                td #{moment(item.createAt).format('YYYY/MM/DD')}
+                        
+
+
+                        
+                    
+                    
+
+    script(src="/libs/jquery/dist/jquery.min.js")
+    script(src="/libs/bootstrap/dist/js/bootstrap.min.js")
+    script(src="/libs/wilddog/wilddog-web-sync.js")
+    script(type="text/javascript").
+        $(function(){
+            var config = {
+                syncURL: "https://wd1656114870exzhuv.wilddogio.com"
+            }
+            wilddog.initializeApp(config)
+            var ref = wilddog.sync().ref('scanObj')
+            ref.on('child_added', function(snapshot){
+                //- var post = snapshot.val()
+                //- console.log(post)
+                $('#username').val(snapshot.val().nickname)
+            })
+        })
+        
+
+                
+                        
+            

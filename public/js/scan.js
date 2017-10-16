@@ -6,7 +6,9 @@ function post(){
             'scan',
             {'cardId': $('#cardId').val()},
             function(data){
-                console.log(data)
+                // console.log(data)
+                alert(data)
+                $('#cardId').val('')
             }    
         )
     }

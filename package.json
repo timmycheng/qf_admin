@@ -27,7 +27,8 @@
     "moment": "^2.19.0",
     "mongoose": "^4.12.1",
     "pug": "^2.0.0-rc.4",
-    "serve-static": "^1.13.1"
+    "serve-static": "^1.13.1",
+    "wilddog": "^2.5.15"
   },
   "devDependencies": {
     "grunt": "^1.0.1",
