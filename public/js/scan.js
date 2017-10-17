@@ -22,3 +22,14 @@ function post(){
         )
     }
 }
+function scan(){
+    //- console.log('in')
+    wx.scanQRCode({
+        needResult: 1,
+        scanType: ['qrCode', 'barCode'],
+        success: function(res){
+            //- console.log(res)
+            $('#cardId').val(res.resultStr)
+        }
+    })
+}

@@ -33,31 +33,18 @@ html
     script(src="/js/scan.js")
     script(src="/libs/weui.js/dist/weui.min.js")
     script(type="text/javascript").
-        if(#{signature}){
-            wx.config({
-                debug: false,
-                appId: '#{signature.appid}',
-                timestamp: #{signature.timestamp},
-                nonceStr: '#{signature.noncestr}',
-                signature: '#{signature.signature}',
-                jsApiList: ['scanQRCode']
-            })
-        }
+        wx.config({
+            debug: false,
+            appId: '#{signature.appid}',
+            timestamp: #{signature.timestamp},
+            nonceStr: '#{signature.noncestr}',
+            signature: '#{signature.signature}',
+            jsApiList: ['scanQRCode']
+        })
         wx.ready(function(){
             //- console.log('done')
         })
         wx.error(function(err){
             console.log(err)
         })
-        function scan(){
-            //- console.log('in')
-            wx.scanQRCode({
-                needResult: 1,
-                scanType: ['qrCode', 'barCode'],
-                success: function(res){
-                    //- console.log(res)
-                    $('#cardId').val(res.resultStr)
-                }
-            })
-        }
         
