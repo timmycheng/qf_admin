@@ -49,4 +49,15 @@ html
         wx.error(function(err){
             console.log(err)
         })
+        function scan(){
+            //- console.log('in')
+            wx.scanQRCode({
+                needResult: 1,
+                scanType: ['qrCode', 'barCode'],
+                success: function(res){
+                    //- console.log(res)
+                    $('#cardId').val(res.resultStr)
+                }
+            })
+        }
         
