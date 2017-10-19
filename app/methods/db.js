@@ -1,6 +1,8 @@
 var mongoose = require('mongoose')
 var User = require('../models/user')
 var Attend = require('../models/attend')
+var Lesson = require('../models/lesson')
+var moment = require('moment')
 
 
 exports.attend = function(req, res){
@@ -14,6 +16,20 @@ exports.attend = function(req, res){
             console.log(err)
         }
        res.redirect('/')
+    })
+}
+
+exports.addLesson = function(req, res){
+    var lessonObj = {
+        'name': req.body.name,
+        'time': req.body.times
+    }
+    var _lesson = new Lesson(lessonObj)
+    _lesson.save(function(err, lesn){
+        if(err){
+            console.log(err)
+        }
+        res.redirect('/')
     })
 }
 
@@ -52,14 +68,34 @@ exports.login = function(req, res){
 }
 
 exports.getAttend = function(req, res, next){
-    Attend
-        .find({})
-        .sort('creatAt')
-        .exec(function(err, list){
-            if(err){
-                console.log(err)
-            }
+    // Attend
+    //     .find({})
+    //     .sort('creatAt')
+    //     .exec(function(err, list){
+    //         if(err){
+    //             console.log(err)
+    //         }else{
+    //             req.list = list
+    //         }
+    //         next()
+    //     })
+    Attend.fetch(function(err, list){
+        if(err){
+            console.log(err)
+        }else{
             req.list = list
-            next()
-        })
+        }
+        next()
+    })
+}
+
+exports.getLesson = function(req, res, next){
+    Lesson.fetch(function(err, lessons){
+        if(err){
+            console.log(err)
+        }else{
+            req.lessons = lessons
+        }
+        next()
+    })
 }

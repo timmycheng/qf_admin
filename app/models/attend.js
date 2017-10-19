@@ -1,7 +1,7 @@
 var mongoose = require('mongoose')
 var ObjectId = mongoose.Schema.Types.ObjectId
 
-var attendSchema = new mongoose.Schema({
+var AttendSchema = new mongoose.Schema({
     nickname: String,
     lesson: String,
     createAt: {
@@ -9,6 +9,15 @@ var attendSchema = new mongoose.Schema({
         default: Date.now()
     },
 })
-var Attend = mongoose.model('attend', attendSchema)
 
+AttendSchema.methods = {
+    fetch: function(cb){
+        return this
+        .find({})
+        .sort('createAt')
+        .exec(cb)
+    }
+}
+
+var Attend = mongoose.model('attend', AttendSchema)
 module.exports = Attend
