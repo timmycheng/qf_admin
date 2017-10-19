@@ -57,9 +57,10 @@ module.exports = function(app){
     })
 
     // 主页
-    app.get('/', db.getAttend, function(req, res){
+    app.get('/', db.getAttend,db.getLesson, function(req, res){
         res.render('index', {
-            list: req.list
+            list: req.list,
+            lessons: req.lessons
         })
     })
     // 扫描页面
@@ -94,5 +95,5 @@ module.exports = function(app){
     app.post('/attend',function(req, res, next){
         app.locals.ref.remove()
         next()
-    }, db.attend)
+    }, db.getAttend)
 }

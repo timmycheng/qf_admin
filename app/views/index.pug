@@ -17,9 +17,30 @@ html
         
         .container
             .row
-                .col-sm-10.col-sm-offset-1.text-center
-                    h2 waiting for scanning...
-                    form#attendForm.form-inline(action="/attend", method="POST")
+                //- .col-sm-10.col-sm-offset-1.text-center
+                .col-sm-6
+                    h2.text-right Lesson Arrangment
+                    form#lessonForm(action="/lesson", method="POST")
+                        .form-group
+                            label(for="name") Lesson Name
+                            input.form-control#name(type="text", name="name")
+                        .form-group
+                            label(for="teacher") Teacher Name
+                            input.form-control#teacher(type="text", name="teacher")
+                        .form-group
+                            label(for="week") week
+                            input.form-control#week(type="text", name="time[week]")
+                        .form-group
+                            label(for="begin") begin
+                            input.form-control#begin(type="text", name="time[begin]")
+                        .form-group
+                            label(for="end") end
+                            input.form-control#end(type="text", name="time[end]")
+                        
+                        button.btn.btn-default(type="submit") Submit
+                .col-sm-6
+                    h2#result Waiting for scanning...
+                    form#attendForm(action="/attend", method="POST")
                         .form-group
                             label(for="username") username
                             input.form-control#username(type="text", name="username" readonly)
@@ -28,18 +49,33 @@ html
                             input.form-control#lesson(type="text", name="lesson")
                         button.btn.btn-default(type="submit") Submit
             .row
-                table.table.table-condensed.table-bordered.table-striped
-                    thead
-                        tr
-                            th name
-                            th class
-                            th timestamp
-                    tbody
-                        each item in list
+                .col-sm-6
+                    table.table.table-condensed.table-bordered.table-striped
+                        thead
                             tr
-                                td #{item.nickname}
-                                td #{item.lesson}
-                                td #{moment(item.createAt).format('dddd YYYY/MM/DD HH:mm:ss')}
+                                th Name
+                                th Teacher
+                                th Time
+                        tbody
+                            each item_l in lessons
+                                tr
+                                    td #{item_l.name}
+                                    td #{item_l.teacher}
+                                    td #{item_l.time}
+                .col-sm-6
+                    table.table.table-condensed.table-bordered.table-striped
+                        thead
+                            tr
+                                th Name
+                                th Class
+                                th Timestamp
+                        tbody
+                            each item in list
+                                tr
+                                    td #{item.nickname}
+                                    td #{item.lesson}
+                                    td #{moment(item.createAt).format('dddd YYYY/MM/DD HH:mm:ss')}
+                    
                         
 
 
@@ -61,6 +97,8 @@ html
                 //- var post = snapshot.val()
                 //- console.log(post)
                 $('#username').val(snapshot.val().nickname)
+                var text = #('#result').val()
+                $('#result').val(text + 'Incoming!')
             })
         })
         

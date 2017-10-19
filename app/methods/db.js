@@ -5,7 +5,7 @@ var Lesson = require('../models/lesson')
 var moment = require('moment')
 
 
-exports.attend = function(req, res){
+exports.addAttend = function(req, res){
     var attendObj = {
         'nickname': req.body.username,
         'lesson': req.body.lesson,
@@ -68,34 +68,45 @@ exports.login = function(req, res){
 }
 
 exports.getAttend = function(req, res, next){
-    // Attend
-    //     .find({})
-    //     .sort('creatAt')
-    //     .exec(function(err, list){
-    //         if(err){
-    //             console.log(err)
-    //         }else{
-    //             req.list = list
-    //         }
-    //         next()
-    //     })
-    Attend.fetch(function(err, list){
-        if(err){
-            console.log(err)
-        }else{
-            req.list = list
-        }
-        next()
-    })
+    Attend
+        .find({})
+        .sort('creatAt')
+        .exec(function(err, list){
+            if(err){
+                console.log(err)
+            }else{
+                req.list = list
+            }
+            next()
+        })
+    // Attend.fetch(function(err, list){
+    //     if(err){
+    //         console.log(err)
+    //     }else{
+    //         req.list = list
+    //     }
+    //     next()
+    // })
 }
 
 exports.getLesson = function(req, res, next){
-    Lesson.fetch(function(err, lessons){
-        if(err){
-            console.log(err)
-        }else{
-            req.lessons = lessons
-        }
-        next()
-    })
+    // Lesson.fetch(function(err, lessons){
+    //     if(err){
+    //         console.log(err)
+    //     }else{
+    //         req.lessons = lessons
+    //     }
+    //     next()
+    // })
+    Lesson
+        .find({})
+        .sort('createAt')
+        .exec(function(err, lessons){
+            if(err){
+                console.log(err)
+            }else{
+                req.lessons = lessons
+            }
+            next()
+        })
 }
