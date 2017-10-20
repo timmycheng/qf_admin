@@ -117,9 +117,9 @@ exports.getLesson = function(req, res, next){
 
 exports.getLesTime = function(req, res){
     var weekday = moment().isoWeekday()
-    console.log(weekday,typeof(weekday))
+    // console.log(weekday,typeof(weekday))
     var time = parseInt(moment().format('HHmm'))
-    console.log(time,typeof(time))
+    // console.log(time,typeof(time))
     Lesson
         .find({
             'times.week': weekday,
