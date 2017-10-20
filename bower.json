@@ -20,6 +20,7 @@
     "jquery": "^3.2.1",
     "bootstrap": "^3.3.7",
     "wilddog": "^2.4.1",
-    "weui.js": "^1.1.2"
+    "weui.js": "^1.1.2",
+    "flatpickr": "flatpickr-calendar#^2.6.3" 
   }
 }

@@ -93,7 +93,12 @@ module.exports = function(app){
     })
     // 确认签到结果
     app.post('/attend',function(req, res, next){
+        // console.log('in here')
         app.locals.ref.remove()
         next()
-    }, db.getAttend)
+    }, db.addAttend)
+
+    app.post('/lesson', db.addLesson)
+
+    app.get('/scanLess', db.getLesTime)
 }

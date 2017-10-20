@@ -2,11 +2,11 @@ var mongoose = require('mongoose')
 var LessonSchema = new mongoose.Schema({
     name: String,
     teacher: String,
-    time: [{
+    times: {
         week: Number,
-        timeBegin: String,
-        timeEnd: String,
-    }], 
+        timeBegin: Number,
+        timeEnd: Number,
+    }, 
     meta: {
         createAt: {
             type: Date,
@@ -26,7 +26,8 @@ LessonSchema.pre('save', function(next){
 	}
 	else{
 		this.meta.updateAt = Date.now()
-	}
+    }
+    next()
 })
 
 LessonSchema.statics = {
@@ -43,5 +44,5 @@ LessonSchema.statics = {
     }
 }
 
-var Lesson = mongoose.model('Lesson', LessonSchema)
+var Lesson = mongoose.model('lesson', LessonSchema)
 module.exports = Lesson

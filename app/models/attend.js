@@ -4,10 +4,12 @@ var ObjectId = mongoose.Schema.Types.ObjectId
 var AttendSchema = new mongoose.Schema({
     nickname: String,
     lesson: String,
-    createAt: {
-        type: Date,
-        default: Date.now()
-    },
+    createAt: Date
+})
+
+AttendSchema.pre('save', function(next){
+    this.createAt = Date.now()
+    next()
 })
 
 AttendSchema.methods = {

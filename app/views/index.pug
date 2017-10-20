@@ -4,6 +4,7 @@ html
         title Qinfeng Education
 
         link(rel="stylesheet", href="/libs/bootstrap/dist/css/bootstrap.min.css")
+        link(rel="stylesheet", href="/libs/flatpickr/dist/flatpickr.min.css")
     body
         nav.navbar.navbar-inverse
             .container-fluid
@@ -21,23 +22,37 @@ html
                 .col-sm-6
                     h2.text-right Lesson Arrangment
                     form#lessonForm(action="/lesson", method="POST")
+                        .row
+                            .col-sm-6
+                                .form-group
+                                    label(for="name") Lesson Name
+                                    input.form-control#name(type="text", name="name")
+                            .col-sm-6
+                                .form-group
+                                    label(for="teacher") Teacher Name
+                                    input.form-control#teacher(type="text", name="teacher")
                         .form-group
-                            label(for="name") Lesson Name
-                            input.form-control#name(type="text", name="name")
-                        .form-group
-                            label(for="teacher") Teacher Name
-                            input.form-control#teacher(type="text", name="teacher")
-                        .form-group
-                            label(for="week") week
-                            input.form-control#week(type="text", name="time[week]")
-                        .form-group
-                            label(for="begin") begin
-                            input.form-control#begin(type="text", name="time[begin]")
-                        .form-group
-                            label(for="end") end
-                            input.form-control#end(type="text", name="time[end]")
-                        
-                        button.btn.btn-default(type="submit") Submit
+                            label(for="time") Time
+                            .row
+                                .col-sm-4
+                                    label.sr-only(for="week") week
+                                    //- select.form-control#week(type="text", name="times[week]", placeholder="Day of week")
+                                    select.form-control#week(name="times[week]", placeholder="Day of Week")
+                                        option(value="1") Monday
+                                        option(value="2") Tuesday
+                                        option(value="3") Wensday
+                                        option(value="4") Thuesday
+                                        option(value="5") Friday
+                                        option(value="6") Saturday
+                                        option(value="7") Sunday
+                                .col-sm-4
+                                    label.sr-only(for="begin") begin
+                                    input.form-control#begin(type="text", name="times[timeBegin]", placeholder="Begin At")
+                                .col-sm-4
+                                    label.sr-only(for="end") end
+                                    input.form-control#end(type="text", name="times[timeEnd]", placeholder="End At")
+                        .form-group.pull-right
+                            button.btn.btn-default(type="submit") Submit
                 .col-sm-6
                     h2#result Waiting for scanning...
                     form#attendForm(action="/attend", method="POST")
@@ -61,7 +76,7 @@ html
                                 tr
                                     td #{item_l.name}
                                     td #{item_l.teacher}
-                                    td #{item_l.time}
+                                    td Every #{moment().isoWeekday(item_l.times.week).format('dddd')} From #{item_l.times.timeBegin} To #{item_l.times.timeEnd}
                 .col-sm-6
                     table.table.table-condensed.table-bordered.table-striped
                         thead
@@ -86,6 +101,7 @@ html
     script(src="/libs/jquery/dist/jquery.min.js")
     script(src="/libs/bootstrap/dist/js/bootstrap.min.js")
     script(src="/libs/wilddog/wilddog-web-sync.js")
+    script(src="/libs/flatpickr/dist/flatpickr.min.js")
     script(type="text/javascript").
         $(function(){
             var config = {
@@ -97,8 +113,27 @@ html
                 //- var post = snapshot.val()
                 //- console.log(post)
                 $('#username').val(snapshot.val().nickname)
-                var text = #('#result').val()
+                var text = $('#result').val()
                 $('#result').val(text + 'Incoming!')
+                $.get('/scanLess', function(result){
+                    $('#lesson').val(result[0].name)
+                })
+            })
+            $('#begin').flatpickr({
+                enableTime: true,
+                noCalendar: true,
+                enableSeconds: false,
+                time_24hr: true,
+                dateFormat:"Hi",
+                defaultDate: "1200"
+            })
+            $('#end').flatpickr({
+                enableTime: true,
+                noCalendar: true,
+                enableSeconds: false,
+                time_24hr: true,
+                dateFormat:"Hi",
+                defaultDate: "1200"
             })
         })
         

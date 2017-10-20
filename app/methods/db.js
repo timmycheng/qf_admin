@@ -22,13 +22,17 @@ exports.addAttend = function(req, res){
 exports.addLesson = function(req, res){
     var lessonObj = {
         'name': req.body.name,
-        'time': req.body.times
+        'teacher': req.body.teacher,
+        'times': req.body.times
     }
+    // console.log(lessonObj)
     var _lesson = new Lesson(lessonObj)
+    // console.log(_lesson)
     _lesson.save(function(err, lesn){
         if(err){
             console.log(err)
         }
+        console.log('done', lesn)
         res.redirect('/')
     })
 }
@@ -108,5 +112,28 @@ exports.getLesson = function(req, res, next){
                 req.lessons = lessons
             }
             next()
+        })
+}
+
+exports.getLesTime = function(req, res){
+    var weekday = moment().isoWeekday()
+    console.log(weekday,typeof(weekday))
+    var time = parseInt(moment().format('HHmm'))
+    console.log(time,typeof(time))
+    Lesson
+        .find({
+            'times.week': weekday,
+            'times.timeBegin': {$lt: time},
+            'times.timeEnd': {$gt: time}
+        })
+        .sort('createAt')
+        .exec(function(err, lesn){
+            if(err){
+                console.log(err)
+            }else{
+                // console.log(lesn)
+                res.send(lesn)
+            }
+            
         })
 }
