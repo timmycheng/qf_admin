@@ -88,8 +88,9 @@ html
                         tbody
                             each item in list
                                 tr
-                                    td #{item.nickname}
-                                    td #{item.lesson}
+                                    - console.log(item)
+                                    td #{item.user}
+                                    td #{item.lesson.name}
                                     td #{moment(item.createAt).format('dddd YYYY/MM/DD HH:mm:ss')}
                     
                         
@@ -121,7 +122,7 @@ html
                     console.log(result)
                     for (var item in result){
                         console.log(result[item].name)
-                        $('#lesson').append("<option value='" + result[item].name + "'>" + result[item].name + "</option>")
+                        $('#lesson').append("<option value='" + result[item]._id + "'>" + result[item].name + "</option>")
                     }
                 })
             })

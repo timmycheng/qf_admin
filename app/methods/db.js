@@ -8,10 +8,11 @@ var moment = require('moment')
 exports.addAttend = function(req, res){
     // console.log(req.body)
     var attendObj = {
-        'nickname': req.body.username,
+        'user': req.body.username,
         'lesson': req.body.lesson,
     }
     var _attend = new Attend(attendObj)
+    // console.log(_attend)
     _attend.save(function(err, recd){
         if(err){
             console.log(err)
@@ -75,6 +76,7 @@ exports.login = function(req, res){
 exports.getAttend = function(req, res, next){
     Attend
         .find({})
+        .populate('lesson', 'name')
         .sort('creatAt')
         .exec(function(err, list){
             if(err){
