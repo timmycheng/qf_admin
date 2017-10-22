@@ -20,7 +20,6 @@ wilddog.initializeApp(wd_config)
 
 // 设置
 mongoose.Promise = global.Promise
-mongoose.connect(mongoUrl, {useMongoClient: true})
 
 app.set('views', './app/views')
 app.set('view engine', 'pug')
@@ -40,7 +39,7 @@ app.use(session({
 }))
 
 app.use(bodyParser.urlencoded({
-    extended: true,
+	extended: true,
 }))
 
 app.use(express.static(path.join(__dirname, 'public')))
@@ -58,6 +57,9 @@ app.listen(port)
 
 require('./app/route')(app)
 
-console.log('Start web server at', port, '...')
+mongoose.connect(mongoUrl, {useMongoClient: true}, function(err){
+	if (err) console.log('Connet to MongoDB err', err)
+	else console.log('Start web server at', port, '...')
+})
 
 

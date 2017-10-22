@@ -61,7 +61,8 @@ html
                             input.form-control#username(type="text", name="username" readonly required)
                         .form-group
                             label(for="lesson") lesson
-                            input.form-control#lesson(type="text", name="lesson" required)
+                            //- input.form-control#lesson(type="text", name="lesson" required)
+                            select.form-control#lesson(name="lesson")
                         button.btn.btn-default(type="submit") Submit
             .row
                 .col-sm-6
@@ -116,7 +117,12 @@ html
                 var text = $('#result').val()
                 $('#result').val(text + 'Incoming!')
                 $.get('/scanLess', function(result){
-                    $('#lesson').val(result[0].name)
+                    //- $('#lesson').val(result[0].name)
+                    console.log(result)
+                    for (var item in result){
+                        console.log(result[item].name)
+                        $('#lesson').append("<option value='" + result[item].name + "'>" + result[item].name + "</option>")
+                    }
                 })
             })
             $('#begin').flatpickr({

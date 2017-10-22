@@ -6,6 +6,7 @@ var moment = require('moment')
 
 
 exports.addAttend = function(req, res){
+    // console.log(req.body)
     var attendObj = {
         'nickname': req.body.username,
         'lesson': req.body.lesson,
@@ -32,7 +33,7 @@ exports.addLesson = function(req, res){
         if(err){
             console.log(err)
         }
-        console.log('done', lesn)
+        // console.log('done', lesn)
         res.redirect('/')
     })
 }
