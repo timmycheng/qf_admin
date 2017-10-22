@@ -11,6 +11,7 @@ var config_card = {
     card_id: 'poLTHtzt_LCAezyRmqhCAAs2iei4'
 }
 
+// 获取access token
 exports.getToken = function(callback){
     console.log('* begin get Token here')
     var url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=' + config_app.appid + '&secret=' + config_app.secret
@@ -33,6 +34,7 @@ exports.getToken = function(callback){
     })
 }
 
+// 获取jsapi ticket
 exports.getTicket = function(token, callback){
     console.log('* begin get ticket')
     var url = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=' + token + '&type=jsapi'
@@ -52,6 +54,7 @@ exports.getTicket = function(token, callback){
     })
 }
 
+// 计算jssdk 签名
 exports.getSign = function(ticket){
     var noncestr = 'Wm3WZYTPz0wzccnW'
     var timestamp = Math.round(Date.now()/1000)
@@ -69,6 +72,7 @@ exports.getSign = function(ticket){
     }
 }
 
+// 获取用户open id
 exports.getOpenId = function(code, token, callback){
     console.log('get open id here')
     // console.log(token)
@@ -100,3 +104,4 @@ exports.getOpenId = function(code, token, callback){
 exports.getUserInfo = function(datestamp, callback){
     
 }
+

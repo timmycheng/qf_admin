@@ -4,7 +4,7 @@ var Attend = require('../models/attend')
 var Lesson = require('../models/lesson')
 var moment = require('moment')
 
-
+// 参加课程 － 签到
 exports.addAttend = function(req, res){
     // console.log(req.body)
     var attendObj = {
@@ -21,6 +21,7 @@ exports.addAttend = function(req, res){
     })
 }
 
+// 添加课程
 exports.addLesson = function(req, res){
     var lessonObj = {
         'name': req.body.name,
@@ -39,6 +40,7 @@ exports.addLesson = function(req, res){
     })
 }
 
+// 用户登录
 exports.login = function(req, res){
     var _user = req.body.user
 	var username = _user.username
@@ -73,6 +75,7 @@ exports.login = function(req, res){
 	})
 }
 
+// 获取签到清单 － 签到表
 exports.getAttend = function(req, res, next){
     Attend
         .find({})
@@ -86,25 +89,10 @@ exports.getAttend = function(req, res, next){
             }
             next()
         })
-    // Attend.fetch(function(err, list){
-    //     if(err){
-    //         console.log(err)
-    //     }else{
-    //         req.list = list
-    //     }
-    //     next()
-    // })
 }
 
+// 获取课程清单 － 课程表
 exports.getLesson = function(req, res, next){
-    // Lesson.fetch(function(err, lessons){
-    //     if(err){
-    //         console.log(err)
-    //     }else{
-    //         req.lessons = lessons
-    //     }
-    //     next()
-    // })
     Lesson
         .find({})
         .sort('createAt')
@@ -118,6 +106,7 @@ exports.getLesson = function(req, res, next){
         })
 }
 
+// 获取目前可签到的课程
 exports.getLesTime = function(req, res){
     var weekday = moment().isoWeekday()
     // console.log(weekday,typeof(weekday))
