@@ -98,7 +98,9 @@ module.exports = function(app){
         next()
     }, db.addAttend)
 
+    // 添加课程
     app.post('/lesson', db.addLesson)
 
+    // 获取目前可用的课程
     app.get('/scanLess', db.getLesTime)
 }
