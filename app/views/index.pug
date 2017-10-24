@@ -57,6 +57,9 @@ html
                     h2#result Waiting for scanning...
                     form#attendForm(action="/attend", method="POST")
                         .form-group
+                            label.sr-only(for="code") code
+                            input.hidden#code(type="text", name="code")
+                        .form-group
                             label(for="username") username
                             input.form-control#username(type="text", name="username" readonly required)
                         .form-group
@@ -114,15 +117,21 @@ html
             ref.on('child_added', function(snapshot){
                 //- var post = snapshot.val()
                 //- console.log(post)
-                $('#username').val(snapshot.val().nickname)
-                var text = $('#result').val()
-                $('#result').val(text + 'Incoming!')
                 $.get('/scanLess', function(result){
-                    //- $('#lesson').val(result[0].name)
-                    console.log(result)
-                    for (var item in result){
-                        console.log(result[item].name)
-                        $('#lesson').append("<option value='" + result[item]._id + "'>" + result[item].name + "</option>")
+                    if(result.length){
+                        $('#username').val(snapshot.val().nickname)
+                        $('#code').val(snapshot.val().code)
+                        //- var text = $('#result').val()
+                        //- $('#result').val(text + 'Incoming!')
+                        //- $('#lesson').val(result[0].name)
+                        //- console.log(result)
+                        for (var item in result){
+                            //- console.log(result[item].name)
+                            $('#lesson').append("<option value='" + result[item]._id + "'>" + result[item].name + "</option>")
+                        }
+                    }else{
+                        alert('No Class!')
+                        ref.remove()
                     }
                 })
             })

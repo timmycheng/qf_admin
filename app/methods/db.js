@@ -3,6 +3,7 @@ var User = require('../models/user')
 var Attend = require('../models/attend')
 var Lesson = require('../models/lesson')
 var moment = require('moment')
+// var config = require('./config')
 
 // 参加课程 － 签到
 exports.addAttend = function(req, res){
@@ -17,7 +18,7 @@ exports.addAttend = function(req, res){
         if(err){
             console.log(err)
         }
-       res.redirect('/')
+        res.redirect('/')
     })
 }
 

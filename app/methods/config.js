@@ -76,6 +76,7 @@ exports.getSign = function(ticket){
 exports.getOpenId = function(code, token, callback){
     console.log('get open id here')
     // console.log(token)
+    var result
     var url = 'https://api.weixin.qq.com/card/membercard/userinfo/get?access_token=' + token
     var data = {
         "card_id": config_card.card_id,
@@ -103,5 +104,34 @@ exports.getOpenId = function(code, token, callback){
 
 exports.getUserInfo = function(datestamp, callback){
     
+}
+
+exports.changeUserCredit = function(credit, code, token, callback){
+    var result
+    var url = 'https://api.weixin.qq.com/card/membercard/updateuser?access_token=' + token
+    var data = {
+        "code": code,
+        "card_id": config_card.card_id,
+        "add_bonus": credit,
+        "notify_optional": {
+            "is_notify_bonus": true
+        }
+    }
+    var opt = Url.parse(url)
+    opt.method = 'POST'
+    opt.headers = {
+        "Content-Type": 'application/json',
+        "Content-Length": JSON.stringify(data).length
+    }
+    var post = https.request(opt, function(res){
+        res.on('data', function(chunk){
+            result = JSON.parse(chunk)
+        })
+        .on('end', function(){
+            return callback(result)
+        })
+    })
+    post.write(JSON.stringify(data))
+    post.end()
 }
 

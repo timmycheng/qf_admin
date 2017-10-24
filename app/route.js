@@ -77,6 +77,7 @@ module.exports = function(app){
             if(openId.errmsg === 'ok' && openId.has_active){
                 scanObj = {
                     'nickname': nickname,
+                    'code': cardId,
                     'timestamp': Date.now()
                 }
                 app.locals.ref.push(scanObj, function(err){
@@ -95,6 +96,12 @@ module.exports = function(app){
     app.post('/attend',function(req, res, next){
         // console.log('in here')
         app.locals.ref.remove()
+        next()
+    },function(req, res, next){
+        var code = req.body.code
+        config.changeUserCredit(1, code, app.locals.accessToken, function(result){
+            console.log(result)
+        })
         next()
     }, db.addAttend)
 
