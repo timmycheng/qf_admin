@@ -39,7 +39,7 @@ function startRecord(){
 function stopRecord(){
     wx.stopRecord({
         success: function(res){
-            alert('done')
+            alert('done', res)
         }
     })
 }
