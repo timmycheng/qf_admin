@@ -33,3 +33,13 @@ function scan(){
         }
     })
 }
+function startRecord(){
+    wx.startRecord()
+}
+function stopRecord(){
+    wx.stopRecord({
+        success: function(res){
+            alert(res.localId)
+        }
+    })
+}
