@@ -34,7 +34,11 @@ function scan(){
     })
 }
 function startRecord(){
-    wx.startRecord()
+    wx.startRecord({
+        success: function(){
+            localStorage.rainAllowRecord = 'true'
+        }
+    })
 }
 function stopRecord(){
     wx.stopRecord({
